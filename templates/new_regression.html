@@ -1,0 +1,111 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="[UTF-8](https://ontrack-internal.amd.com/browse/UTF-8)">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>New Regression</title>  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">  
+    <style>  
+        body {  
+            background-color: #f8f9fa;  
+        }  
+        .container {  
+            margin-top: 50px;  
+        }  
+        .card {  
+            border-radius: 10px;  
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+        }  
+        .card-header {  
+            background-color: #007bff;  
+            color: white;  
+            border-radius: 10px 10px 0 0;  
+        }  
+        .card-body {  
+            padding: 30px;  
+        }  
+        .btn-primary {  
+            background-color: #007bff;  
+            border: none;  
+        }  
+        .btn-primary:hover {  
+            background-color: #0056b3;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="container">  
+        <div class="card">  
+            <div class="card-header text-center">  
+                <h2>New Regression</h2>  
+            </div>  
+            <div class="card-body">  
+                <form method="POST" action="/new_regression">  
+                    <div class="form-group">  
+                        <label for="project">Project:</label>  
+                        <select class="form-control" id="project" name="project" required>  
+                            {% for project in projects %}  
+                                <option value="{{ project.proj_name }}">{{ project.proj_name }}</option>  
+                            {% endfor %}  
+                        </select>  
+                    </div>  
+                    <div class="form-group">  
+                        <label for="codeline">Codeline:</label>  
+                        <select class="form-control" id="codeline" name="codeline" required>  
+                            {% for codeline in codelines %}  
+                                <option value="{{ codeline.codeline }}">{{ codeline.codeline }}</option>  
+                            {% endfor %}  
+                        </select>  
+                    </div>  
+                    <div class="form-group">  
+                        <label for="p4_branch">P4 Branch:</label>  
+                        <select class="form-control" id="p4_branch" name="p4_branch" required>  
+                            {% for p4_branch in p4_branches %}  
+                                <option value="{{ p4_branch.p4_branch }}">{{ p4_branch.p4_branch }}</option>  
+                            {% endfor %}  
+                        </select>  
+                    </div>  
+                    <div class="form-group">  
+                        <label for="reg_name">Regression Name:</label>  
+                        <input type="text" class="form-control" id="reg_name" name="reg_name" required>  
+                    </div>  
+                    <div class="form-group">  
+                        <label for="bootenv">Bootenv:</label>  
+                        <select class="form-control" id="bootenv" name="bootenv" required>  
+                            <option value="yes">Yes</option>  
+                            <option value="no">No</option>  
+                        </select>  
+                    </div>  
+                    <div class="form-group">  
+                        <label for="disk">Disk:</label>  
+                        <select class="form-control" id="disk" name="disk" required>  
+                            {% for disk in disks %}  
+                                <option value="{{ disk }}">{{ disk }}</option>  
+                            {% endfor %}  
+                        </select>  
+                    </div>  
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>  
+                </form>  
+                {% with messages = get_flashed_messages(with_categories=true) %}  
+                    {% if messages %}  
+                        <div class="mt-4">  
+                            {% for category, message in messages %}  
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">  
+                                    {{ message }}  
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">  
+                                        <span aria-hidden="true">&times;</span>  
+                                    </button>  
+                                </div>  
+                            {% endfor %}  
+                        </div>  
+                    {% endif %}  
+                {% endwith %}  
+            </div>  
+        </div>  
+    </div>  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>  
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+</body>  
+</html>  
+

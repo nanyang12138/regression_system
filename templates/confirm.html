@@ -1,0 +1,73 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="[UTF-8](https://ontrack-internal.amd.com/browse/UTF-8)">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Confirm Regression</title>  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">  
+    <style>  
+        body {  
+            background-color: #f8f9fa;  
+        }  
+        .container {  
+            margin-top: 50px;  
+        }  
+        .card {  
+            border-radius: 10px;  
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+        }  
+        .card-header {  
+            background-color: #007bff;  
+            color: white;  
+            border-radius: 10px 10px 0 0;  
+        }  
+        .card-body {  
+            padding: 30px;  
+        }  
+        .btn-primary {  
+            background-color: #007bff;  
+            border: none;  
+        }  
+        .btn-primary:hover {  
+            background-color: #0056b3;  
+        }  
+        #output {  
+            white-space: pre-wrap;  
+            background-color: #f8f9fa;  
+            padding: 10px;  
+            border: 1px solid #ddd;  
+            border-radius: 5px;  
+            height: 300px;  
+            overflow-y: scroll;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="container">  
+        <div class="card">  
+            <div class="card-header text-center">  
+                <h2>Confirm Regression</h2>  
+            </div>  
+            <div class="card-body">  
+                <p>Please confirm with below regression info and input 'yes' or 'no':</p>  
+                <p>============================================================================</p>  
+                <p>Project: <strong>{{ new_regression.project }}</strong></p>  
+                <p>Configuration_id: <strong>{{ new_regression.codeline }}/{{ new_regression.p4_branch }}</strong></p>  
+                <p>Regression name: <strong>{{ new_regression.reg_name }}</strong></p>  
+                <p>Bootenv: <strong>{{ new_regression.bootenv }}</strong></p>  
+                <p>Tree path: <strong>{{ new_regression.disk }}/{{ session.user }}/{{ new_regression.project }}/{{ new_regression.codeline }}_{{ new_regression.reg_name }}</strong></p>  
+                <p>============================================================================</p>  
+                <form method="POST" action="/confirm">  
+                    <button type="submit" name="confirm" value="yes" class="btn btn-primary btn-block">Yes</button>  
+                    <button type="submit" name="confirm" value="no" class="btn btn-secondary btn-block">No</button>  
+                </form>  
+                <div id="output"></div>  
+            </div>  
+        </div>  
+    </div>  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>  
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+</body>  
+</html>  
+

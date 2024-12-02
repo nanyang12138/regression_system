@@ -1,0 +1,136 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="[UTF-8](https://ontrack-internal.amd.com/browse/UTF-8)">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Regression List</title>  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">  
+    <style>  
+        body {  
+            background-color: #f8f9fa;  
+        }  
+        .container {  
+            margin-top: 50px;  
+        }  
+        .card {  
+            border-radius: 10px;  
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+        }  
+        .card-header {  
+            background-color: #007bff;  
+            color: white;  
+            border-radius: 10px 10px 0 0;  
+        }  
+        .card-body {  
+            padding: 30px;  
+        }  
+        .btn-primary {  
+            background-color: #007bff;  
+            border: none;  
+        }  
+        .btn-primary:hover {  
+            background-color: #0056b3;  
+        }  
+        table {  
+            width: 100%;  
+            margin-top: 20px;  
+        }  
+        th, td {  
+            padding: 10px;  
+            text-align: left;  
+        }  
+        th {  
+            background-color: #007bff;  
+            color: white;  
+        }  
+        tr:nth-child(even) {  
+            background-color: #f2f2f2;  
+        }  
+        .green {  
+            color: green;  
+        }  
+        .blue {  
+            color: blue;  
+        }  
+        .red {  
+            color: red;  
+        }  
+    </style>  
+    <script>  
+        function refreshPage() {  
+            window.location.reload();  
+        }  
+        setInterval(refreshPage, 60000); // Refresh every 60 seconds  
+    </script>  
+</head>  
+<body>  
+    <div class="container">  
+        <div class="card">  
+            <div class="card-header text-center">  
+                <h2>Regression List</h2>  
+            </div>  
+            <div class="card-body">  
+                {% if user in ['hmzheng', 'nsun', 'dbpei'] %}  
+                <form method="post" action="{{ url_for('regression_list') }}">  
+                    <div class="form-group">  
+                        <label for="check_who">Please input the user name you want to check:</label>  
+                        <input type="text" class="form-control" id="check_who" name="check_who" value="{{ check_who }}">  
+                    </div>  
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>  
+                </form>  
+                {% endif %}  
+                <table class="table table-bordered">  
+                    <thead>  
+                        <tr>  
+                            <th>Project</th>  
+                            <th>Regression</th>  
+                            <th>Size(G)</th>  
+                            <th>Status</th>  
+                            <th>Action</th>  
+                        </tr>  
+                    </thead>  
+                    <tbody>  
+                        {% for reg in regressions %}  
+                        <tr>  
+                            <td>{{ reg.proj_name }}</td>  
+                            <td>{{ reg.codeline }}_{{ reg.reg_name }}</td>  
+                            <td>{{ reg.size }}</td>  
+                            <td>  
+                                {% set alias = reg.proj_name ~ '_' ~ reg.codeline ~ '_' ~ reg.reg_name %}  
+                                {% if alias in status %}  
+                                    <span class="{{ status[alias].color.lower() }}">{{ status[alias].jobs_name }}</span>  
+                                {% else %}  
+                                    <span class="red">idle</span>  
+                                {% endif %}  
+                            </td>  
+                            <td>  
+                                <form method="post" style="display:inline;">  
+                                    <input type="hidden" name="reg_id" value="{{ reg.id }}">  
+                                    <button type="submit" name="action" value="run" class="btn btn-primary btn-sm">Run</button>  
+                                </form>  
+                                <form method="post" style="display:inline;">  
+                                    <input type="hidden" name="reg_id" value="{{ reg.id }}">  
+                                    <button type="submit" name="action" value="kill" class="btn btn-danger btn-sm">Kill</button>  
+                                </form>  
+                                <form method="post" style="display:inline;">  
+                                    <input type="hidden" name="reg_id" value="{{ reg.id }}">  
+                                    <button type="submit" name="action" value="open_profile" class="btn btn-info btn-sm">Open Profile</button>  
+                                </form>  
+                                <form method="post" style="display:inline;">  
+                                    <input type="hidden" name="reg_id" value="{{ reg.id }}">  
+                                    <button type="submit" name="action" value="delete" class="btn btn-warning btn-sm">Delete</button>  
+                                </form>  
+                            </td>  
+                        </tr>  
+                        {% endfor %}  
+                    </tbody>  
+                </table>  
+            </div>  
+        </div>  
+    </div>  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>  
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+</body>  
+</html>  
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="[UTF-8](https://ontrack-internal.amd.com/browse/UTF-8)">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Setup Regression Tree</title>  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">  
+    <style>  
+        body {  
+            background-color: #f8f9fa;  
+        }  
+        .container {  
+            margin-top: 50px;  
+        }  
+        .card {  
+            border-radius: 10px;  
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+        }  
+        .card-header {  
+            background-color: #007bff;  
+            color: white;  
+            border-radius: 10px 10px 0 0;  
+        }  
+        .card-body {  
+            padding: 30px;  
+        }  
+        #output {  
+            white-space: pre-wrap;  
+            background-color: #f8f9fa;  
+            padding: 10px;  
+            border: 1px solid #ddd;  
+            border-radius: 5px;  
+            height: 300px;  
+            overflow-y: scroll;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="container">  
+        <div class="card">  
+            <div class="card-header text-center">  
+                <h2>Setting up Regression Tree</h2>  
+            </div>  
+            <div class="card-body">  
+                <p>Setting up the regression tree, please be patient ...</p>  
+                <div id="output"></div>  
+            </div>  
+        </div>  
+    </div>  
+    <script>  
+        const outputElement = document.getElementById('output');  
+        const eventSource = new EventSource("{{ url_for('stream') }}");  
+  
+        eventSource.onmessage = function(event) {  
+            outputElement.textContent += event.data + "\n";  
+            if (event.data.includes("Setup completed successfully.") || event.data.includes("Setup encountered errors.")) {  
+                eventSource.close();  
+                setTimeout(() => {  
+                    window.location.href = "{{ url_for('main_menu') }}";  
+                }, 5000); // Wait for 5 seconds before redirecting  
+            }  
+        };  
+  
+        eventSource.onerror = function() {  
+            outputElement.textContent += "An error occurred while setting up the tree.\n";  
+            eventSource.close();  
+        };  
+    </script>  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>  
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+</body>  
+</html>  
+
